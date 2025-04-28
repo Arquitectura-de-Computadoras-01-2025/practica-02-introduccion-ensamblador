@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2025-04-27T23:42:48-06:00",
+  "id": "laboratorio-03-arquitectura",
+  "duration": 0,
+  "title": "Laboratorio 3: Introducción a ensamblador y modos de direccionamiento",
+  "authors": "Ing. Gabriela Reynosa, Erika Paz, Kevin Escobar",
+  "summary": "Laboratorio 03 - Introducción a ensamblador y modos de direccionamiento",
+  "source": "codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "ensamblador",
+    "direccionamiento",
+    "thinkercad",
+    "laboratorio"
+  ],
+  "tags": [],
+  "url": "laboratorio-03-arquitectura"
+}

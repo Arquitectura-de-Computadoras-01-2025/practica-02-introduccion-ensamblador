@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta name="theme-color" content="#4F7DC9" />
+    <meta charset="UTF-8" />
+    <title>
+      Laboratorio 3: Introducción a ensamblador y modos de direccionamiento
+    </title>
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://storage.googleapis.com/claat-public/codelab-elements.css"
+    />
+    <style>
+      .success {
+        color: #1e8e3e;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <google-codelab-analytics
+      gaid="UA-49880327-14"
+      ga4id=""
+    ></google-codelab-analytics>
+    <google-codelab
+      codelab-gaid=""
+      codelab-ga4id=""
+      id="laboratorio-03-arquitectura"
+      title="Laboratorio 3: Introducción a ensamblador y modos de direccionamiento"
+      environment="web"
+      feedback-link=""
+    >
+      <google-codelab-step label="Objetivos:" duration="0">
+        <ul>
+          <li>
+            Comprender la sintaxis básica y los componentes esenciales del
+            código en ensamblador X86.
+          </li>
+          <li>
+            Identificar y describir la función de los registros comunes en la
+            arquitectura X86.
+          </li>
+          <li>
+            Aprender a escribir instrucciones básicas en ensamblador X86 y
+            compilarlas utilizando NASM.
+          </li>
+          <li>
+            Ejecutar y depurar programas en ensamblador usando DOSBOX y
+            debug.exe.
+          </li>
+          <li>
+            Explorar y diferenciar los distintos modos de direccionamiento en
+            ensamblador X86 y su aplicación práctica.
+          </li>
+        </ul>
+      </google-codelab-step>
+
+      <google-codelab-step label="Introducción a Ensamblador:" duration="0">
+        <p>
+          La programación en lenguaje ensamblador es una forma de programar a
+          bajo nivel que se comunica directamente con el microprocesador de una
+          computadora. En contraste con los lenguajes de alto nivel, como Python
+          o Java, que están diseñados para ser más fáciles de entender y
+          escribir, el ensamblador trabaja a un nivel más cercano al hardware
+          físico de la máquina.
+        </p>
+        <h2 is-upgraded><strong>Características principales:</strong></h2>
+        <ul>
+          <li>
+            <strong>Programación de bajo nivel</strong>: El lenguaje ensamblador
+            se considera de bajo nivel debido a que las instrucciones que
+            escribe el programador se traducen directamente a código máquina, el
+            cual es el lenguaje entendido por la CPU (Unidad Central de
+            Procesamiento). Esta característica proporciona un mayor control
+            sobre el hardware y permite optimizar el rendimiento de los
+            programas.
+          </li>
+          <li>
+            <strong>Control directo del hardware</strong>: Una de las ventajas
+            principales de programar en ensamblador es la capacidad de controlar
+            directamente el hardware de la computadora. Esto significa que se
+            pueden escribir programas que interactúen con la CPU, la memoria y
+            otros dispositivos periféricos de manera precisa y eficiente.
+          </li>
+        </ul>
+        <h2 is-upgraded>Sintaxis:</h2>
+        <p>
+          El lenguaje de ensamblador X86 tiene una estructura y sintaxis
+          específica que permite a los programadores escribir instrucciones que
+          la CPU puede ejecutar directamente. Comprender esta sintaxis es
+          crucial para desarrollar programas eficientes y funcionales. A
+          continuación se describen los componentes clave de la sintaxis del
+          ensamblador X86:
+        </p>
+        <p class="image-container">
+          <img alt="Sintaxis" src="img/31688d5f34b8f87e.jpeg" />
+        </p>
+        <ol type="1">
+          <li>
+            <strong>Directivas</strong>Las directivas son comandos que le
+            indican al ensamblador cómo procesar el código. No son ejecutadas
+            por la CPU, sino que preparan el entorno de ejecución. Por ejemplo,
+            pueden definir constantes, reservar espacio en memoria o incluso
+            controlar el proceso de ensamblaje.
+          </li>
+          <li>
+            <strong>Secciones</strong>En ensamblador X86, el código y los datos
+            se organizan en secciones:
+            <ul>
+              <li>
+                <strong>section .text</strong>: Esta es la sección principal
+                donde se escribe el código ejecutable. Aquí se colocan todas las
+                instrucciones que la CPU ejecutará.
+              </li>
+              <li>
+                <strong>section .data</strong>: Utilizada para declarar
+                variables estáticas o constantes que no cambian durante la
+                ejecución del programa. Esta sección almacena los datos que las
+                instrucciones en la sección .text manipularán.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Etiquetas</strong>Las etiquetas son identificadores que
+            marcan puntos específicos en el código, como el inicio de una
+            función o un loop. Funcionan como marcadores que pueden ser
+            referenciados por instrucciones de salto y llamadas a funciones,
+            facilitando la navegación y organización del código.
+          </li>
+          <li>
+            <strong>Instrucciones</strong>Las instrucciones son comandos que el
+            procesador ejecuta directamente. Incluyen operaciones aritméticas,
+            de manejo de datos, control de flujo, entre otros. Cada instrucción
+            tiene un propósito específico y se expresa en la forma más cercana
+            al lenguaje de la máquina que es comprensible para los humanos.
+          </li>
+          <li>
+            <strong>Operandos</strong>Los operandos son los valores con los que
+            trabajan las instrucciones. Pueden ser inmediatos (valores
+            directos), registros, o ubicaciones de memoria. Los operandos
+            determinan las entradas y salidas de las instrucciones y son
+            esenciales para la manipulación de datos.
+          </li>
+        </ol>
+      </google-codelab-step>
+
+      <google-codelab-step label="Registros de datos" duration="0">
+        <p>
+          Los registros de datos son componentes fundamentales en Ensamblador,
+          ya que se usan en el manejo de operaciones aritméticas y el
+          almacenamiento temporal de datos. Cada registro de datos es de 16 bits
+          de longitud y puede ser tratado como dos registros de 8 bits
+          independientes, es decir, están compuesto por dos subregistros de 8
+          bits: parte alta y parte baja.
+        </p>
+        <p>
+          Estos registros residen en la Unidad de Ejecución (EU), los cuales
+          son:
+        </p>
+        <p class="image-container">
+          <img alt="Registros" src="img/f0755d32de9a5fa4.jpeg" />
+        </p>
+        <ol type="1">
+          <li>
+            <strong>AX (Acumulador):</strong> Este registro se destaca como el
+            principal registro de trabajo. Se utiliza para almacenar resultados
+            de operaciones aritméticas y otras operaciones.
+          </li>
+          <li>
+            <strong>BX (Registro Base):</strong> BX se utiliza como un registro
+            de base para direccionamientos de memoria. Es crucial para indicar
+            dónde se almacenarán o recuperarán bloques de datos que serán
+            procesados por el programa.
+          </li>
+          <li>
+            <strong>CX (Contador):</strong> CX cumple una doble función como
+            contador y almacenador de datos. Se utiliza para llevar el conteo de
+            ciclos repetitivos en un programa con instrucciones de bucle, además
+            de almacenar temporalmente datos para su manipulación.
+          </li>
+          <li>
+            <strong>DX (Registro de Datos):</strong> DX desempeña un papel
+            importante en operaciones aritméticas de multiplicación y división.
+            Se utiliza para manejar los operandos y los resultados de estas
+            operaciones. Además, en algunas operaciones, DX almacena la
+            dirección de entrada/salida (E/S), lo que lo convierte en un
+            registro versátil en el manejo de datos y control de dispositivos.
+          </li>
+        </ol>
+      </google-codelab-step>
+
+      <google-codelab-step
+        label="Pasos para la compilación y DEBUG"
+        duration="0"
+      >
+        <ol type="1">
+          <li>
+            Guardar el código en lenguaje ensamblador x86 en un archivo con
+            extensión <strong><code>.asm</code></strong
+            >. Este archivo contendrá el programa en ensamblador.
+          </li>
+          <li>
+            Ensamblar el archivo guardado ejecutando el siguiente comando:
+            <pre><code language="language-bash" class="language-bash">nasm -f bin &lt;nombre&gt;.asm -o &lt;nombre&gt;.com
+</code></pre>
+            Este comando genera un archivo ejecutable con extensión
+            <strong><code>.com</code></strong> con el nombre indicado en el
+            comando.
+          </li>
+          <li>
+            Abrir DOSBox, donde se podrá ejecutar y depurar el programa antes
+            ensamblado. Se puede abrir DOSBox desde la terminal ejecutando el
+            siguiente comando:
+            <pre><code language="language-bash" class="language-bash">dosbox .
+</code></pre>
+          </li>
+          <li>
+            Una vez que DOSBox esté abierto, ingresar el siguiente comando en el
+            prompt para iniciar el depurador y cargar el programa:
+            <pre><code language="language-bash" class="language-bash">debug.exe &lt;nombre&gt;.com
+</code></pre>
+            Esto abrirá el depurador de DOSBox y cargarás tu programa
+            ensamblador para su depuración.
+          </li>
+        </ol>
+      </google-codelab-step>
+
+      <google-codelab-step label="Comandos útiles para DEBUG" duration="0">
+        <ul>
+          <li>
+            <strong><code>r</code></strong
+            ><strong> - Mostrar Registros:</strong> Muestra el estado actual de
+            los registros de la CPU, lo que proporciona información sobre los
+            valores almacenados en los registros de la CPU.
+          </li>
+          <li>
+            <strong><code>t</code></strong
+            ><strong> - Ejecutar Instrucción:</strong> Ejecuta una sola
+            instrucción del programa, permitiendo un paso a través del código
+            para inspeccionar su ejecución paso a paso.
+          </li>
+          <li>
+            <strong><code>t n</code></strong
+            ><strong> - Ejecutar Instrucciones:</strong> Ejecuta un número
+            específico (<strong><code>n</code></strong
+            >) de instrucciones del programa, lo que permite avanzar rápidamente
+            a través del código.
+          </li>
+          <li>
+            <strong><code>g</code></strong
+            ><strong> - Ejecutar Programa:</strong> Ejecuta todo el programa de
+            forma continua hasta que alcanza un punto de interrupción o
+            finaliza, lo que facilita la ejecución completa del programa.
+          </li>
+          <li>
+            <strong><code>d 200</code></strong
+            ><strong> - Ver Memoria:</strong> Muestra el estado de la memoria en
+            la dirección específica <strong><code>200h</code></strong
+            >, lo que permite inspeccionar el contenido de la memoria en esa
+            ubicación.
+          </li>
+          <li>
+            <strong><code>q</code></strong
+            ><strong> - Salir:</strong> Sale del depurador DEBUG, regresando al
+            prompt de la línea de comandos, lo que finaliza la sesión de
+            depuración.
+          </li>
+        </ul>
+      </google-codelab-step>
+
+      <google-codelab-step
+        label="Direccionamiento: Instrucción 
+MOV"
+        duration="0"
+      >
+        <h2 is-upgraded><strong>Concepto de Direccionamiento</strong></h2>
+        <p>
+          El direccionamiento en ensamblador se refiere a la manera en que se
+          accede a los datos necesarios para ejecutar una instrucción. Los modos
+          de direccionamiento determinan la ubicación de los operandos que una
+          instrucción puede utilizar, ya sea en un registro, en memoria o como
+          un valor inmediato. Estos modos son fundamentales para entender cómo
+          se manipulan los datos dentro de un programa en ensamblador.
+        </p>
+        <h2 is-upgraded><strong>Instrucción MOV</strong></h2>
+        <p>
+          La instrucción <strong><code>MOV</code></strong> es una de las más
+          básicas y utilizadas en ensamblador X86. Su función es mover datos de
+          un lugar a otro. La sintaxis general es:
+        </p>
+        <pre><code language="language-nasm" class="language-nasm">MOV destino, fuente
+</code></pre>
+        <p>
+          Donde el <strong><code>destino</code></strong> no puede ser un valor
+          inmediato, sino más bien un registro o dirección de memoria.
+        </p>
+        <h2 is-upgraded>
+          <strong>Directivas de Tamaño: </strong
+          ><strong><code>byte</code></strong
+          ><strong>, </strong><strong><code>word</code></strong
+          ><strong>, y </strong><strong><code>dword</code></strong>
+        </h2>
+        <p>
+          En ensamblador X86, es crucial especificar el tamaño de los datos con
+          los que se está trabajando. Las directivas de tamaño byte, word, y
+          dword se utilizan para este propósito:
+        </p>
+        <ul>
+          <li>
+            <strong>byte:</strong> Especifica que los datos son de 1 byte u 8
+            bits.
+          </li>
+          <li>
+            <strong>word:</strong> Especifica que los datos son de 2 bytes o 16
+            bits.
+          </li>
+          <li>
+            <strong>dword:</strong> Especifica que los datos son de 4 bytes o 32
+            bits.
+          </li>
+        </ul>
+        <p>
+          La elección entre estas directivas depende del tamaño de los datos que
+          se necesitan mover. Usar la directiva de tamaño adecuada es crucial
+          para asegurar que el programa funcione correctamente y que no se
+          produzcan errores de acceso a memoria.
+        </p>
+      </google-codelab-step>
+
+      <google-codelab-step label="Modos de direccionamiento" duration="0">
+        <p>
+          Los modos de direccionamiento en ensamblador son métodos que
+          especifican cómo una instrucción obtiene los operandos necesarios para
+          su ejecución. Cada modo de direccionamiento ofrece un mecanismo
+          diferente para acceder a los datos, ya sea directamente en el código,
+          a través de registros, o mediante direcciones de memoria. La elección
+          del modo de direccionamiento afecta la flexibilidad, la eficiencia y
+          el tamaño del código de la máquina.
+        </p>
+        <p>
+          Entre los principales modos de direccionamiento tenemos los
+          siguientes:
+        </p>
+        <h2 is-upgraded>Modo de direccionamiento inmediato</h2>
+        <p>
+          El modo de direccionamiento inmediato es uno de los más simples y
+          directos en ensamblador. En este modo, el operando es un valor
+          constante o literal que está codificado directamente en la
+          instrucción. Este valor no se almacena en memoria o en un registro,
+          sino que forma parte de la propia instrucción
+        </p>
+        <p>
+          Es posible realizar el direccionamiento inmediato con varios tipos de
+          datos, por ejemplo:
+        </p>
+        <ol type="1">
+          <li><strong>Decimales</strong></li>
+        </ol>
+        <pre><code language="language-nasm" class="language-nasm">MOV AH, 12d
+</code></pre>
+        <p>
+          Esta instrucción carga el valor decimal <code>12</code> en el registro
+          <code>AH</code> (parte alta del registro <code>AX</code>).
+        </p>
+        <ol type="1">
+          <li><strong>Hexadecimales</strong></li>
+        </ol>
+        <pre><code language="language-nasm" class="language-nasm">MOV AL, 14ECh;
+</code></pre>
+        <p>
+          El código anterior carga en el registro de 8 bits <code>AL</code> el
+          valor hexadecimal <code>14EC</code>.
+        </p>
+        <p>
+          O si se desea almacenar un valor hexadecimal que comience por una
+          letra, por ejemplo <code>FF</code>, es necesario anteponerle el número
+          cero, de lo contrario se obtendrá un error.
+        </p>
+        <pre><code language="language-nasm" class="language-nasm">MOV AL, 0FFh
+</code></pre>
+        <ol type="1">
+          <li><strong>Binarios</strong></li>
+        </ol>
+        <pre><code language="language-nasm" class="language-nasm">MOV BH, 10010b
+</code></pre>
+        <p>
+          Con esta instrucción se ha cargado en el registro <code>BH</code> el
+          valor binario <code>10010</code> .
+        </p>
+        <aside class="special">
+          <p>
+            💡 Notar que las letras `d` , `h` y `b` al final de los números a
+            guardar describen el sistema de numeración que se utilizará.
+          </p>
+        </aside>
+        <ol type="1">
+          <li><strong>Caracteres</strong></li>
+        </ol>
+        <pre><code language="language-nasm" class="language-nasm">MOV BL, &#34;A&#34;
+</code></pre>
+        <p>
+          Con esta instrucción, se carga el código <strong>ASCII</strong> de la
+          letra <code>A</code> en el registro <code>BL</code> .
+        </p>
+        <h2 is-upgraded>Modo de direccionamiento por registro</h2>
+        <p>
+          En este modo de direccionamiento, usaremos los registros como
+          operandos, de manera que pasemos el dato contenido de un registro a
+          otro. Hay que considerar que el registro que usemos como fuente
+          conservara su valor original, mientras que el registro de destino
+          copiara el valor de la fuente. Por otro lado, una cosa muy importante
+          sobre este modo es que ambos registros deben tener el mismo tamaño.
+        </p>
+        <p>Por ejemplo:</p>
+        <pre><code language="language-nasm" class="language-nasm">MOV CX, AX
+</code></pre>
+        <p>
+          En esta instrucción, se moverá el contenido del registro AX al
+          registro CX. En este caso, AX y CX son los operandos y al realizarse
+          la operación ambos registros contendrán el valor que AX tenia
+          originalmente.
+        </p>
+        <h2 is-upgraded>Modo de direccionamiento absoluto</h2>
+        <p>
+          En el modo de direccionamiento absoluto además de registros también
+          usamos direcciones de memoria para el manejo de datos, ya sea como
+          fuente o como destino. Para hacerlo indicamos la dirección que
+          deseamos usar entre corchetes.
+        </p>
+        <pre><code language="language-nasm" class="language-nasm">; Direccionamiento con registros de 8 bits/1 byte
+  MOV [200h], CH; de registro a memoria
+  MOV AH, [200h]; de memoria a registro
+</code></pre>
+        <p>
+          Cada dirección de memoria almacena 1 byte de información. Si deseamos
+          almacenar valores mayores los bytes excedentes se guardaran en las
+          direcciones siguientes utilizando la notación little endian.
+        </p>
+        <pre><code language="language-nasm" class="language-nasm">; DX actualmente tiene como valor 1241h
+ 
+; Direccionamiento con registros de 16 bits/2 bytes
+   MOV [210h], DX; de registro a memoria
+   MOV BX, [210h]; de memoria a registro
+</code></pre>
+        <p>
+          En el ejemplo anterior, en la dirección hexadecimal
+          <code>210</code> se guardara el valor hexadecimal <code>41</code> y la
+          dirección <code>211</code> tendrá el valor hexadecimal
+          <code>12</code> .
+        </p>
+        <p>
+          Al pasarlo de memoria a registro, el contenido de la dirección
+          <code>210h</code> se guarda en la parte baja de <code>BX</code> y el
+          de la dirección <code>211h</code> en la parte alta. Como resultado
+          tanto <code>DX</code> como <code>BX</code> ****tendrán el mismo
+          contenido.
+        </p>
+        <p>
+          Es importante señalar que el comando MOV
+          <strong
+            >no permite usar dos direcciones de memoria como operandos al mismo
+            tiempo</strong
+          >, por lo que si deseamos pasar un dato de una dirección de memoria a
+          otra siempre debemos usar un registro como intermediario.
+        </p>
+        <h2 is-upgraded>Modo de direccionamiento indirecto</h2>
+        <p>
+          El modo de direccionamiento indirecto permite acceder a los datos
+          mediante el uso de registros que contienen direcciones de memoria. En
+          lugar de especificar un operando directamente en la instrucción, se
+          utiliza el valor dentro de un registro como referencia a la memoria
+          donde se encuentra el dato. Este modo es especialmente útil para
+          manipular colecciones de datos como arrays o para implementar
+          estructuras de datos complejas que requieren acceso dinámico.
+        </p>
+        <p>
+          En el direccionamiento indirecto, la CPU toma el valor de un registro,
+          lo trata como una dirección de memoria y accede al contenido de esa
+          dirección. Esto permite que las instrucciones trabajen con datos cuya
+          ubicación exacta en memoria puede no ser conocida en tiempo de
+          compilación, ofreciendo una gran flexibilidad en el manejo de datos.
+        </p>
+        <p>
+          Para este tipo de direccionamiento, los registros que pueden ser
+          utilizados para almacenar la dirección de memoria son los registros
+          base o índice (<code>BX</code>, <code>BP</code>, <code>SI</code> y
+          <code>DI</code>).
+        </p>
+        <pre><code language="language-nasm" class="language-nasm">  MOV BP, 210h ; Se almacena la dirección de memoria a acceder
+  MOV AL, [BP] ; Se obtiene el valor que se encuentra en esa dirección de memoria
+</code></pre>
+        <p>
+          En el ejemplo anterior, en la dirección hexadecimal
+          <code>210</code> se encuentra cargado el valor hexadecimal
+          <code>41</code> , posteriormente se carga dicha dirección de memoria
+          en el registro base <code>BP</code> con el cual se hace el
+          direccionamiento indirecto para obtener el valor guardado en la
+          dirección <code>210</code> y se guarda en el registro
+          <code>AL</code> , el cual finalmente obtiene el valor hexadecimal
+          <code>41</code> .
+        </p>
+      </google-codelab-step>
+
+      <google-codelab-step label="Tarea" duration="0">
+        <p>
+          Haciendo uso de los cuatro modos de direccionamientos abordados en
+          esta guía de laboratorio, se deberá almacenar el número de carné del
+          autor, colocando cada dígito en direcciones de memoria consecutivas,
+          comenzando desde la dirección <code>200h</code> . Es importante que
+          para cada direccionamiento realizado se deje indicado utilizando
+          comentarios a qué tipo de direccionamiento corresponde.
+        </p>
+        <p>
+          Por ejemplo, para el alumno con carné <code>00124521</code> el
+          resultado final esperado es el siguiente:
+        </p>
+        <p class="image-container">
+          <img alt="Debug" src="img/657ab2fd9d45ad1a.png" />
+        </p>
+      </google-codelab-step>
+
+      <google-codelab-step label="Indicaciones de entrega" duration="0">
+        <ul>
+          <li>
+            La entrega se realizará a través de GitHub Classroom, en el
+            repositorio asignado para las
+            <a href="https://classroom.github.com/a/p3Yq-RKA" target="_blank"
+              >prácticas de laboratorio</a
+            >.
+          </li>
+          <li>
+            Crear una carpeta llamada &#34;Laboratorio-03&#34; dentro del
+            repositorio. Esta carpeta será el contenedor para los archivos de
+            esta práctica.
+          </li>
+          <li>
+            Dentro de la carpeta &#34;Laboratorio-03&#34;, crear un archivo
+            llamado <strong><code>desarrollo.asm</code></strong
+            >. En este archivo, colocar todos los ejemplos y ejercicios
+            desarrollados durante la práctica de laboratorio.
+          </li>
+          <li>
+            Crear un segundo archivo llamado
+            <strong><code>tarea.asm</code></strong> dentro de la carpeta
+            &#34;Laboratorio-03&#34;. Este archivo debe contener la solución a
+            la tarea propuesta.
+          </li>
+        </ul>
+        <pre><code>└── Laboratorio-03
+    ├── desarrollo.asm
+    └── tarea.asm
+</code></pre>
+        <ul>
+          <li>
+            Realizar dos commits separados:
+            <ul>
+              <li>
+                <strong>Primer Commit:</strong> Subir el archivo
+                <strong><code>desarrollo.asm</code></strong> una vez completado
+                el desarrollo durante la práctica.
+              </li>
+              <li>
+                <strong>Segundo Commit:</strong> Subir el archivo
+                <strong><code>tarea.asm</code></strong> una vez completada la
+                tarea propuesta.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Copiar el enlace de su repositorio en el entregable llamado
+            &#34;[Nota] Laboratorio 03 - Introducción a ensamblador y modos de
+            direccionamiento&#34; correspondiente a la práctica de laboratorio
+            que está colocado en el e-campus.
+          </li>
+        </ul>
+      </google-codelab-step>
+
+      <google-codelab-step label="Rúbrica" duration="0">
+        <table>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p><strong>Criterios</strong></p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p><strong>Porcentaje</strong></p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1"><p>Desarrollo</p></td>
+            <td colspan="1" rowspan="1"><p>30%</p></td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1"><p>Tarea</p></td>
+            <td colspan="1" rowspan="1"><p>50%</p></td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1"><p>Entrega en GitHub</p></td>
+            <td colspan="1" rowspan="1"><p>20%</p></td>
+          </tr>
+          <tr>
+            <td colspan="1" rowspan="1">
+              <p><strong>Total</strong></p>
+            </td>
+            <td colspan="1" rowspan="1">
+              <p><strong>100%</strong></p>
+            </td>
+          </tr>
+        </table>
+      </google-codelab-step>
+    </google-codelab>
+
+    <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+    <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+    <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+    <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+    <script src="//support.google.com/inapp/api.js"></script>
+    <script>
+      const fabs = document.querySelector("#fabs");
+      const done = document.querySelector("#done");
+      const codelabNavButtons = document.querySelector("#codelab-nav-buttons");
+      const arrowBack = document.querySelector("#arrow-back");
+      fabs.removeChild(done);
+      codelabNavButtons.removeChild(arrowBack);
+    </script>
+  </body>
+</html>
