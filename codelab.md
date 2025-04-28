@@ -8,7 +8,7 @@ authors: Ing. Gabriela Reynosa, Erika Paz, Kevin Escobar
 
 ---
 
-##  Objetivos:
+##  Objetivos
 
 - Comprender la sintaxis básica y los componentes esenciales del código en ensamblador X86.
 - Identificar y describir la función de los registros comunes en la arquitectura X86.
@@ -18,7 +18,7 @@ authors: Ing. Gabriela Reynosa, Erika Paz, Kevin Escobar
 
 ---
 
-##  **Introducción a Ensamblador:**
+##  Introducción a Ensamblador
 
 La programación en lenguaje ensamblador es una forma de programar a bajo nivel que se comunica directamente con el microprocesador de una computadora. En contraste con los lenguajes de alto nivel, como Python o Java, que están diseñados para ser más fáciles de entender y escribir, el ensamblador trabaja a un nivel más cercano al hardware físico de la máquina.
 
