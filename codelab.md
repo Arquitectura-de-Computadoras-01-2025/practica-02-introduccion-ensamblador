@@ -33,27 +33,17 @@ El lenguaje de ensamblador X86 tiene una estructura y sintaxis específica que p
 
 ![Sintaxis](./images/sintaxis.jpeg)
 
-1. **Directivas**
+1. **Directivas:** Las directivas son comandos que le indican al ensamblador cómo procesar el código. No son ejecutadas por la CPU, sino que preparan el entorno de ejecución. Por ejemplo, pueden definir constantes, reservar espacio en memoria o incluso controlar el proceso de ensamblaje.
     
-    Las directivas son comandos que le indican al ensamblador cómo procesar el código. No son ejecutadas por la CPU, sino que preparan el entorno de ejecución. Por ejemplo, pueden definir constantes, reservar espacio en memoria o incluso controlar el proceso de ensamblaje.
-    
-2. **Secciones**
-    
-    En ensamblador X86, el código y los datos se organizan en secciones:
-    
+2. **Secciones:** En ensamblador X86, el código y los datos se organizan en secciones:
     - **section .text**: Esta es la sección principal donde se escribe el código ejecutable. Aquí se colocan todas las instrucciones que la CPU ejecutará.
     - **section .data**: Utilizada para declarar variables estáticas o constantes que no cambian durante la ejecución del programa. Esta sección almacena los datos que las instrucciones en la sección .text manipularán.
-3. **Etiquetas** 
+  
+3. **Etiquetas:** Las etiquetas son identificadores que marcan puntos específicos en el código, como el inicio de una función o un loop. Funcionan como marcadores que pueden ser referenciados por instrucciones de salto y llamadas a funciones, facilitando la navegación y organización del código.
     
-    Las etiquetas son identificadores que marcan puntos específicos en el código, como el inicio de una función o un loop. Funcionan como marcadores que pueden ser referenciados por instrucciones de salto y llamadas a funciones, facilitando la navegación y organización del código.
+4. **Instrucciones:** Las instrucciones son comandos que el procesador ejecuta directamente. Incluyen operaciones aritméticas, de manejo de datos, control de flujo, entre otros. Cada instrucción tiene un propósito específico y se expresa en la forma más cercana al lenguaje de la máquina que es comprensible para los humanos.
     
-4. **Instrucciones**
-    
-    Las instrucciones son comandos que el procesador ejecuta directamente. Incluyen operaciones aritméticas, de manejo de datos, control de flujo, entre otros. Cada instrucción tiene un propósito específico y se expresa en la forma más cercana al lenguaje de la máquina que es comprensible para los humanos.
-    
-5. **Operandos**
-    
-    Los operandos son los valores con los que trabajan las instrucciones. Pueden ser inmediatos (valores directos), registros, o ubicaciones de memoria. Los operandos determinan las entradas y salidas de las instrucciones y son esenciales para la manipulación de datos.
+5. **Operandos:** Los operandos son los valores con los que trabajan las instrucciones. Pueden ser inmediatos (valores directos), registros, o ubicaciones de memoria. Los operandos determinan las entradas y salidas de las instrucciones y son esenciales para la manipulación de datos.
     
 
 ---
@@ -189,7 +179,7 @@ MOV BH, 10010b
 Con esta instrucción se ha cargado en el registro `BH` el valor binario `10010` .
 
 <aside class="positive">
-💡 Notar que las letras `d` , `h`   y `b` al final de los números a guardar describen el sistema de numeración que se utilizará.
+💡 Notar que las letras <b>d</b>, <b>h</b> y <b>b</b> al final de los números a guardar describen el sistema de numeración que se utilizará.
 
 </aside>
 
